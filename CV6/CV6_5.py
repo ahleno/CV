@@ -12,7 +12,7 @@ while capture.isOpened():
     (b, g, r) = cv2.split(frame)
     
     # 병합
-    merge_img = cv2.merge((b, r, g))
+    merge_img = cv2.merge((b, g, r))
 
     cv2.imshow("Frame", frame)
     
