@@ -1,0 +1,74 @@
+import cv2
+
+capture = cv2.VideoCapture(0)
+
+#1 -> LR 데칼코마니
+decalcomanie_LR = False
+#2 -> TD 데칼코마니
+decalcomanie_TD = False
+
+# LR Flip
+flip_LR = False
+# TD Flip
+flip_TD = False
+
+while capture.isOpened():
+    
+    ret, frame = capture.read()
+    
+    if not ret:
+        break
+     
+    
+    (height, width, channel) = frame.shape
+    
+    frame[:, int(width/2), :] = (255, 0, 0)
+    
+    #1
+    if decalcomanie_LR:
+        temp = frame.copy()
+        for x in range(int(width/2)):
+            frame[:, x, :] = temp[:, width-1-x, :]
+    
+    #2 
+    if decalcomanie_TD:
+        temp = frame.copy()    
+        for y in range(int(height/2)):
+            frame[y, :, :] = temp[height-1-y, :, :]
+    
+    # LR Flip
+    if decalcomanie_LR:
+        temp = frame.copy()
+        for x in range(int(width/2)):
+            frame[:, x, :] = temp[:, width-x, :]
+    # TD Flip
+    if flip_TD:
+        temp = frame.copy()    
+        for y in range(int(height/2)):
+            frame[y, :, :] = temp[height-y, :, :]            
+    cv2.imshow("Frame", frame)
+    
+    key = cv2.waitKey(32)
+    
+
+
+    if key == ord('1'):
+        decalcomanie_LR = True
+        decalcomanie_TD = False
+        
+    elif key == ord('2'):
+        decalcomanie_LR = False
+        decalcomanie_TD = True
+    
+    elif key == ord('3'):
+        decalcomanie_LR = True
+        decalcomanie_TD = False
+        
+    elif key == ord('4'):
+        decalcomanie_LR = False
+        decalcomanie_TD = True
+
+    elif key > 0:
+        break
+
+capture.release()
