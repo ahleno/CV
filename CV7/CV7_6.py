@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import cv2
 from matplotlib import pyplot as plt
 
@@ -18,3 +19,23 @@ cv2.imshow('Stretch Image', n_img)
 plt.show()
 
 cv2.waitKey(0)
+=======
+# 히스토그램 스트레칭
+
+import cv2
+
+image = cv2.imread("img/lenna_256g_dark.bmp", cv2.IMREAD_GRAYSCALE)
+
+hist = cv2.calcHist([image], [0], None, [256], [0, 256])
+
+h_min = 255
+
+for i in range(hist.size):
+    if hist[i] > 0:
+        h_min = i
+        
+        break
+
+print(h_min)
+print(image.min())
+>>>>>>> 23d32b85909b6723242ecf2110ff1d11330be207

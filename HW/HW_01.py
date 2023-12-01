@@ -3,6 +3,11 @@ import cv2
 
 image = cv2.imread('img/18-4-0.jpg', cv2.IMREAD_UNCHANGED)
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 23d32b85909b6723242ecf2110ff1d11330be207
 # 윈도우 생성
 cv2.namedWindow("Image", cv2.WINDOW_NORMAL) 
 
