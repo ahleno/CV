@@ -19,7 +19,7 @@ def detect_coins(image_path):
         minDist=50,
         param1=50,
         param2=30,
-        minRadius=10,
+        minRadius=30,
         maxRadius=100
     )
 
@@ -28,19 +28,29 @@ def detect_coins(image_path):
         circles = np.uint16(np.around(circles))
         total_amount = 0
 
+        # Reference object size (e.g., a coin with a known size)
+        reference_object_radius = 100  # Adjust this value based on your reference object
+
         for i in circles[0, :]:
             # 동전의 반지름
             radius = i[2]
 
-            # 동전의 금액 할당
-            if radius < 25:  # 10원
+            # 동전의 크기 비율 계산
+            size_ratio = radius / reference_object_radius
+
+            # 동전의 금액 할당 (가상의 크기에 따라 조절)
+            if size_ratio < 0.75:  # 10원
                 coin_value = 10
-            elif radius < 35:  # 50원
+                print(coin_value, radius)
+            elif size_ratio < 0.85:  # 50원
                 coin_value = 50
-            elif radius < 45:  # 100원
+                print(coin_value, radius)
+            elif size_ratio < 0.95:  # 100원
                 coin_value = 100
+                print(coin_value, radius)
             else:  # 500원
                 coin_value = 500
+                print(coin_value, radius)
 
             # 총 금액 계산
             total_amount += coin_value
@@ -54,6 +64,7 @@ def detect_coins(image_path):
         print(f"총 금액: {total_amount} 원")
 
         # 결과 이미지 출력
+        cv2.namedWindow("Detected Coins", cv2.WINDOW_NORMAL)
         cv2.imshow("Detected Coins", image)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
@@ -61,7 +72,7 @@ def detect_coins(image_path):
         print("동전을 찾을 수 없습니다.")
 
 # 이미지 파일 경로 입력
-image_path = "./img/coins_2.jpg"
+image_path = "./img/coins_3.jpg"
 
 # 동전 감지 및 총 금액 계산
 detect_coins(image_path)
